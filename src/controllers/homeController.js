@@ -1,7 +1,10 @@
-const { get } = require("../routes/web")
+const { json } = require('express');
+const connection = require('../config/database')
+
 
 const getHomepage = (req, res) => {
-    res.send('Hello World! &nodemon')
+
+    return res.render('home.ejs')
 }
 
 const getABC = (req, res) => {

@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const path = require('path');
 const configViewEngine = require('./config/viewEngine');
 const webRoutes = require('./routes/web');
 const connection = require('./config/database');
@@ -16,7 +15,7 @@ configViewEngine(app);
 
 
 //Khai bao route
-app.use('/test', webRoutes);
+app.use('/', webRoutes);
 
 //test connection
 
