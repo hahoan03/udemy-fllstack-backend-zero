@@ -1,6 +1,6 @@
 const { json } = require('express');
 const connection = require('../config/database')
-const { getAllUsers, getUserById, updateUserById } = require('../services/CRUDService')
+const { getAllUsers, getUserById, updateUserById, deleteUserById } = require('../services/CRUDService')
 
 const getHomepage = async (req, res) => {
     let results = await getAllUsers();
@@ -64,9 +64,24 @@ const postUpdateUser = async (req, res) => {
 
 }
 
+const postDeleteUser = async (req, res) => {
+    const userId = req.params.id;
+    let [results, fields] = await connection.query('select * from Users where id = ?', [userId]);
+
+    let user = results && results.length > 0 ? results[0] : {};
+    //res.send("delete user succeed !");
+    res.render("delete.ejs", { userEdit: user });
+}
+
+const postHandleRemoveUser = async (req, res) => {
+    const id = req.body.userId;
+    await deleteUserById(id);
+    res.redirect('/');
+}
 
 
 module.exports = {
     getHomepage, getABC, getHoiDanIT, postCreateUser,
-    getCreatePage, getUpdatePage, postUpdateUser
+    getCreatePage, getUpdatePage, postUpdateUser,
+    postDeleteUser, postHandleRemoveUser
 }
